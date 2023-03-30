@@ -1,10 +1,10 @@
-package com.masai.blockyourstocks;
+package com.blockyourstocks;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello");
+		System.out.println("Checking the main class...");
 	}
 
 }
