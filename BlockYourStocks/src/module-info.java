@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author nmoha
+ *
+ */
+module BlockYourStocks {
+}
