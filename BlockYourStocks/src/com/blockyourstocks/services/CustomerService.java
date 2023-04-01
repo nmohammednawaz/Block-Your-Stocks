@@ -9,7 +9,7 @@ import com.blockyourstocks.exceptions.*;
 public interface CustomerService {
 	public boolean login(String email,String password, Map<String, Customer> customers) throws InvalidDetailsException;
 
-	public void signUp(Customer cus, Map<String, Customer> customers) throws DuplicateDataException;
+	public void register(Customer cus, Map<String, Customer> customers) throws DuplicateDataException;
 
 	public boolean buyStock(int id, int qty, String email, Map<Integer, Stock> stocks,
 			Map<String, Customer> customers, List<Transaction> transactions)
@@ -24,3 +24,5 @@ public interface CustomerService {
 	public List<Customer> viewAllCustomers(Map<String, Customer> customers) throws StockException;
 
 }
+
+
