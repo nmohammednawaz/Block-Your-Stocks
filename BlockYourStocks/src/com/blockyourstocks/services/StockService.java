@@ -7,13 +7,13 @@ import com.blockyourstocks.exceptions.StockException;
 
 
 public interface StockService {
-	public String addStock(Stock stock, Map<Integer, Stock> stocks);
+	public String addStock(Stock stock, Map<String, Stock> stocks);
 
-	public void viewAllStocks(Map<Integer, Stock> stocks) throws StockException;
+	public void viewAllStocks(Map<String, Stock> stocks) throws StockException;
 
-	public void deleteStock(int id, Map<Integer, Stock> stocks) throws StockException;
+	public void deleteStock(String name, Map<String, Stock> stocks) throws StockException;
 
-	public String updateStock(int id, Stock stock, Map<Integer, Stock> stocks) throws StockException;
+	public String updateStock(String name, Stock stock, Map<String, Stock> stocks) throws StockException;
 
 	
 }

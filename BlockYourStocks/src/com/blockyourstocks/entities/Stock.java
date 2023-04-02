@@ -1,9 +1,13 @@
 package com.blockyourstocks.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Stock {
-	private int id;
+public class Stock implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private int qty;
 	private double price;
@@ -13,21 +17,12 @@ public class Stock {
 		super();
 	}
 
-	public Stock(int id, String name, int qty, double price, String stocktype) {
+	public Stock(String name, int qty, double price, String stocktype) {
 		super();
-		this.id = id;
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.qty = qty;
 		this.price = price;
 		this.stockType = stocktype;
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -64,13 +59,13 @@ public class Stock {
 
 	@Override
 	public String toString() {
-		return "Stock [id=" + id + ", name=" + name + ", qty=" + qty + ", price=" + price + ", stockType=" + stockType
+		return "Stock [name: " + name + ", quantity: " + qty + ", price: " + price + ", stockType: " + stockType
 				+ "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(stockType, id, name, price, qty);
+		return Objects.hash(stockType, name, price, qty);
 	}
 
 	@Override
@@ -82,7 +77,7 @@ public class Stock {
 		if (getClass() != obj.getClass())
 			return false;
 		Stock other = (Stock) obj;
-		return Objects.equals(stockType, other.stockType) && id == other.id && Objects.equals(name, other.name)
+		return Objects.equals(stockType, other.stockType) && Objects.equals(name, other.name)
 				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price) && qty == other.qty;
 	}
 }

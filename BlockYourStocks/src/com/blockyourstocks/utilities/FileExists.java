@@ -15,9 +15,9 @@ public class FileExists {
 	
 	
 //	-------------------------------------- Creating Stocks File ---------------------------------------
-	public static Map<Integer, Stock> stocksFile() {
+	public static Map<String, Stock> stocksFile() {
 
-		Map<Integer, Stock> pFile = null;
+		Map<String, Stock> pFile = null;
 
 		File f = new File("Stocks.ser");
 		boolean flag = false;
@@ -37,7 +37,7 @@ public class FileExists {
 			} else {
 
 				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
-				pFile = (Map<Integer, Stock>) ois.readObject();
+				pFile = (Map<String, Stock>) ois.readObject();
 
 				return pFile;
 
