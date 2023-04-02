@@ -11,7 +11,11 @@ public interface CustomerService {
 
 	public void register(Customer cus, Map<String, Customer> customers) throws DuplicateDataException;
 
-	public boolean buyStock(int id, int qty, String email, Map<Integer, Stock> stocks,
+	public boolean buyStock(String name, int qty, String email, Map<String, Stock> stocks,
+			Map<String, Customer> customers, List<Transaction> transactions)
+			throws InvalidDetailsException, StockException;
+	
+	public boolean sellStock(String name, int qty, String email, Map<String, Stock> stocks,
 			Map<String, Customer> customers, List<Transaction> transactions)
 			throws InvalidDetailsException, StockException;
 

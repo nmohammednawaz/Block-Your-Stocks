@@ -14,7 +14,7 @@ public class Main {
 	
 //	--------------------------------------- Admin Functionalities -------------------------------------------------
 	
-//	***************************************** Admin Login Method ********************************************
+//	**************************************** Admin Login Method *********************************************
 	public static void adminLogin(Scanner sc) throws InvalidDetailsException {
 
 		System.out.println("Enter the username :");
@@ -28,8 +28,8 @@ public class Main {
 		}
 	}
 	
-//	**************************************** Admin Add Stock Method *****************************************
-	public static String adminAddStock(Scanner sc, Map<Integer, Stock> stocks, StockService stockService) {
+//	*************************************** Admin Add Stock Method ******************************************
+	public static String adminAddStock(Scanner sc, Map<String, Stock> stocks, StockService stockService) {
 
 		String str = null;
 		System.out.println("please enter the stock details");
@@ -40,9 +40,15 @@ public class Main {
 		double price = sc.nextDouble();
 		System.out.println("Enter the stock type");
 		System.out.println("1. Common Stock \n2. Preferred Stock");
-		String stockType = sc.next();
-
-		Stock stock = new Stock(IDGeneration.generateId(stocks.size()), name, qty, price, stockType);
+		int stockTypeSelect = sc.nextInt();
+		String stockType = null;
+		if(stockTypeSelect == 1) {
+			stockType = "Common Stock";
+		}else {
+			stockType = "Preferred Stock";
+		}
+		
+		Stock stock = new Stock(name, qty, price, stockType);
 
 		str = stockService.addStock(stock, stocks);
 
@@ -50,31 +56,29 @@ public class Main {
 
 	}
 	
-//	************************************** Admin View All Stock Method **************************************
-	public static void adminViewAllStocks(Map<Integer, Stock> stocks, StockService stockService)
+//	************************************ Admin View All Stock Method ****************************************
+	public static void adminViewAllStocks(Map<String, Stock> stocks, StockService stockService)
 			throws StockException {
 		stockService.viewAllStocks(stocks);
 	}
 	
-//	*************************************** Admin Delete Stock Method ***************************************
-	public static void adminDeleteStock(Scanner sc, Map<Integer, Stock> stocks, StockService stockService)
+//	************************************* Admin Delete Stock Method *****************************************
+	public static void adminDeleteStock(Scanner sc, Map<String, Stock> stocks, StockService stockService)
 			throws StockException {
 
-		System.out.println("please enter the id of product to be deleted");
-		int id = sc.nextInt();
-		stockService.deleteStock(id, stocks);
+		System.out.println("please enter the id of stock to be deleted");
+		String name = sc.next();
+		stockService.deleteStock(name.toUpperCase(), stocks);
 	}
 	
-//	*************************************** Admin Update Stock Method ***************************************
-	public static String adminUpdateStock(Scanner sc, Map<Integer, Stock> stocks, StockService stockService)
+//	************************************* Admin Update Stock Method *****************************************
+	public static String adminUpdateStock(Scanner sc, Map<String, Stock> stocks, StockService stockService)
 			throws StockException {
 		String result = null;
-		System.out.println("please enter the id of the stock which is to be updated");
-		int id = sc.nextInt();
-		System.out.println("Enter the updated details ");
 
-		System.out.println("Enter the stock name");
+		System.out.println("please enter the name of the stock which is to be updated");
 		String name = sc.next();
+		System.out.println("Enter the updated details ");
 
 		System.out.println("Enter the stock qty");
 		int qty = sc.nextInt();
@@ -83,17 +87,17 @@ public class Main {
 		double price = sc.nextDouble();
 
 		System.out.println("Enter the stock type");
-		System.out.println("1. Common Stock \n2. Preferred Stock");
+		System.out.println("1. Common \n2. Preferred");
 		String stockType = sc.next();
 
-		Stock update = new Stock(id, name, qty, price, stockType);
+		Stock update = new Stock(name, qty, price, stockType);
 
-		result = stockService.updateStock(id, update, stocks);
+		result = stockService.updateStock(name.toUpperCase(), update, stocks);
 		
 		return result;
 	}
 	
-//	****************************************** Admin View All Customers Method ******************************************
+//	********************************** Admin View All Customers Method **************************************
 	public static void adminViewAllCustomers(Map<String, Customer> customers, CustomerService cusService)
 			throws StockException {
 		List<Customer> list = cusService.viewAllCustomers(customers);
@@ -103,7 +107,7 @@ public class Main {
 		}
 	}
 
-//	************************************ Admin View All Transaction Method **********************************
+//	********************************* Admin View All Transaction Method *************************************
 	public static void adminViewAllTransactions(List<Transaction> transactions, TransactionService transactionService)
 			throws TransactionException {
 		List<Transaction> allTransactions = transactionService.viewAllTransactions(transactions);
@@ -114,8 +118,8 @@ public class Main {
 
 	}
 	
-//	*************************************** Admin Functionality method **************************************
-	private static void adminFunctionality(Scanner sc, Map<Integer, Stock> stocks, Map<String, Customer> customers,
+//	************************************ Admin Functionality method *****************************************
+	private static void adminFunctionality(Scanner sc, Map<String, Stock> stocks, Map<String, Customer> customers,
 			List<Transaction> transactions) throws InvalidDetailsException, StockException, TransactionException {
 		
 //		Caling Admin login Method
@@ -137,11 +141,10 @@ public class Main {
 				System.out.println("6. view all transactions");
 				System.out.println("7. log out");
 				choice = sc.nextInt();
-
 				switch (choice) {
 				case 1:
 					String added = adminAddStock(sc, stocks, stockService);
-					System.out.println(added + " added successfully...!");
+					System.out.println(added);
 					break;
 				case 2:
 					adminViewAllStocks(stocks, stockService);
@@ -163,7 +166,9 @@ public class Main {
 					System.out.println("admin has successfully logout");
 					break;
 				default:
-					throw new IllegalArgumentException("Unexpected value: " + choice);
+//					throw new IllegalArgumentException("Unexpected value: " + choice);
+					System.out.println("Unexpected value: " + choice);
+					break;
 				}
 
 			} while (choice <= 6);
@@ -180,17 +185,25 @@ public class Main {
 //	**************************************** Customer Register Method ****************************************
 	public static void customerRegister(Scanner sc, Map<String, Customer> customers) throws DuplicateDataException {
 		System.out.println("please enter the following details to Register");
-		System.out.println("please enter the user name");
-		String name = sc.next();
-		System.out.println("Enter the password");
+		System.out.println("Fisrt name:");
+		String fName = sc.next();
+		System.out.println("Last name:");
+		String lName = sc.next();
+		System.out.println("Username:");
+		String username = sc.next();
+		System.out.println("Password:");
 		String pass = sc.next();
-		System.out.println("enter the address");
+		System.out.println("Address:");
 		String address = sc.next();
-		System.out.println("Enter the email id");
+		System.out.println("Mobile Number:");
+		String mobNum = sc.next()
+;		System.out.println("Email Id:");
 		String email = sc.next();
 		System.out.println("Enter the balance to be added into the wallet");
 		double balance = sc.nextDouble();
-		Customer cus = new Customer(balance, name, pass, address, email);
+		String userStatus = "Active";
+		String name = fName + " " + lName;
+		Customer cus = new Customer(balance, name, username, pass, address, mobNum, email, userStatus);
 
 		CustomerService cusService = new CustomerServiceImplement();
 		cusService.register(cus, customers);
@@ -207,33 +220,56 @@ public class Main {
 	}
 	
 //	************************************** Customer View All Stock Method ************************************
-	public static void customerViewAllStocks(Map<Integer, Stock> stocks, StockService stockService)
+	public static void customerViewAllStocks(Map<String, Stock> stocks, StockService stockService)
 			throws StockException {
 		stockService.viewAllStocks(stocks);
 	}
 
 //	**************************************** Customer Buy Stock Method ***************************************
-	public static String customerBuyStock(Scanner sc, String email, Map<Integer, Stock> stocks,
+	public static String customerBuyStock(Scanner sc, String email, Map<String, Stock> stocks,
 			Map<String, Customer> customers, List<Transaction> transactions, CustomerService cusService)
 			throws InvalidDetailsException, StockException {
-		System.out.println("Enter the Stock id");
-		int id = sc.nextInt();
+		System.out.println("Enter the Stock name which you want to buy");
+		String name = sc.next();
 		System.out.println("enter the quantity you want to buy");
 		int qty = sc.nextInt();
-		cusService.buyStock(id, qty, email, stocks, customers, transactions);
-
-		return "You have successfully bought the product";
+		
+	    boolean result = cusService.buyStock(name.toUpperCase(), qty, email, stocks, customers, transactions);
+	    if(result) {
+	    	return "You have successfully purchased the stock";
+	    }else {
+	    	return "Oops...!\nUnfortunately you cannot buy a stock since your account is Inactive..!";
+	    }
+		
+		
 
 	}
 	
+//	**************************************** Customer sell Stock Method ***************************************
+	public static String customerSellStock(Scanner sc, String email, Map<String, Stock> stocks,
+			Map<String, Customer> customers, List<Transaction> transactions, CustomerService cusService)
+			throws InvalidDetailsException, StockException {
+		System.out.println("Enter the Stock name which you want to sell");
+		String name = sc.next();
+		System.out.println("enter the quantity you want to sell");
+		int qty = sc.nextInt();
+		cusService.sellStock(name.toUpperCase(), qty, email, stocks, customers, transactions);
+
+		return "You have successfully sold the stock";
+
+	}
+//	
 //	**************************************** Customer Add Money Method ***************************************
 	public static String customerAddMoneyToWallet(Scanner sc, String email, Map<String, Customer> customers,
 			CustomerService cusService) {
 		System.out.println("please enter the amount");
 		double money = sc.nextDouble();
 		boolean added = cusService.addMoneyToWallet(money, email, customers);
-
-		return "Amount of " + money + " successfully added to your wallet";
+		if(added) {
+			return "Amount of " + money + " successfully added to your wallet";
+		}else {
+			return "Amount of " + money + " couldn't add!";
+		}
 	}
 	
 //	**************************************** Customer view wallet Method *************************************
@@ -247,8 +283,10 @@ public class Main {
 	public static void customerViewMyDetails(String email, Map<String, Customer> customers,
 			CustomerService cusService) {
 		Customer cus = cusService.viewCustomerDetails(email, customers);
-		System.out.println("name : " + cus.getUsername());
+		System.out.println("name : " + cus.getName());
+		System.out.println("username : " + cus.getUsername());
 		System.out.println("address : " + cus.getAddress());
+		System.out.println("mobile number : " + cus.getNum());
 		System.out.println("email : " + cus.getEmail());
 		System.out.println("wallet balance : " + cus.getWalletBalance());
 	}
@@ -265,7 +303,7 @@ public class Main {
 	
 //	************************************* Customer Functionality method **************************************
 	public static void customerFunctionality(Scanner sc, Map<String, Customer> customers,
-			Map<Integer, Stock> stocks, List<Transaction> transactions)
+			Map<String, Stock> stocks, List<Transaction> transactions)
 			throws InvalidDetailsException, TransactionException {
 
 		CustomerService cusService = new CustomerServiceImplement();
@@ -284,13 +322,14 @@ public class Main {
 			int choice = 0;
 			do {
 				System.out.println("Please select your preference");
-				System.out.println("1. view all products");
-				System.out.println("2. buy a product");
-				System.out.println("3. add money to a wallet");
-				System.out.println("4. view wallet balance");
-				System.out.println("5. view my details");
-				System.out.println("6. view my transactions");
-				System.out.println("7. logout");
+				System.out.println("1. view all stocks");
+				System.out.println("2. buy a stock");
+				System.out.println("3. sell a stock");
+				System.out.println("4. add money to a wallet");
+				System.out.println("5. view wallet balance");
+				System.out.println("6. view my details");
+				System.out.println("7. view my transactions");
+				System.out.println("8. logout");
 				choice = sc.nextInt();
 
 				switch (choice) {
@@ -302,20 +341,24 @@ public class Main {
 					System.out.println(result);
 					break;
 				case 3:
+					String sold = customerSellStock(sc, email, stocks, customers, transactions, cusService);
+					System.out.println(sold);
+					break;
+				case 4:
 					String moneyAdded = customerAddMoneyToWallet(sc, email, customers, cusService);
 					System.out.println(moneyAdded);
 					break;
-				case 4:
+				case 5:
 					double walletBalance = customerViewWalletBalance(email, customers, cusService);
 					System.out.println("Wallet balance is: " + walletBalance);
 					break;
-				case 5:
+				case 6:
 					customerViewMyDetails(email, customers, cusService);
 					break;
-				case 6:
+				case 7:
 					customerViewCustomerTransactions(email, transactions, transactionService);
 					break;
-				case 7:
+				case 8:
 					System.out.println("you have successsfully logout");
 					break;
 				default:
@@ -323,25 +366,21 @@ public class Main {
 					break;
 				}
 
-			} while (choice <= 6);
+			} while (choice <= 7);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	
 //	=================================== End Of Customer Functionalities Method =====================================
-	
-	
 	
 	
 //	------------------------------------------------- Main Method ---------------------------------------------------
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
 		//file check
-		Map<Integer, Stock> stocks = FileExists.stocksFile();
+		Map<String, Stock> stocks = FileExists.stocksFile();
 		Map<String, Customer> customers = FileExists.customersFile();
 		List<Transaction> transactions = FileExists.transactionsFile();
 		
@@ -356,7 +395,7 @@ public class Main {
 				System.out.println("1. Admin \n2. Customer Login \n3. Customer Register \n0. for exit");
 				choice = sc.nextInt();
 				switch (choice) {
-				case 1:
+				case 1: 
 					adminFunctionality(sc, stocks, customers, transactions);
 					break;
 				case 2:
@@ -373,7 +412,10 @@ public class Main {
 					break;
 
 				default:
-					throw new IllegalArgumentException("Invalid Selection");
+//					throw new IllegalArgumentException("Invalid Selection");
+					System.out.println("Invalid Selection");
+					break;
+					
 				}
 
 			}
