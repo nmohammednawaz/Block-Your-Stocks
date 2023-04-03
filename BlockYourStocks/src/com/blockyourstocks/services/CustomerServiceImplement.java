@@ -74,6 +74,7 @@ public class CustomerServiceImplement implements CustomerService{
 							stock.getPrice() * qty, LocalDate.now());
 
 					transactions.add(tr);
+					return true;
 
 				} else {
 					throw new InvalidDetailsException("wallet balance is not sufficient");
@@ -87,7 +88,7 @@ public class CustomerServiceImplement implements CustomerService{
 			throw new InvalidDetailsException("Stock not available with name: " + name);
 		}
 
-		return false;
+//		return false;
 	}
 	
 	@Override
@@ -132,6 +133,22 @@ public class CustomerServiceImplement implements CustomerService{
 		customers.put(email, cus);
 
 		return true;
+	}
+	
+	@Override
+	public boolean withdrawMoneyFromWallet(double amount, String email, Map<String, Customer> customers) {
+		// TODO Auto-generated method stub
+
+		Customer cus = customers.get(email);
+		if(cus.getWalletBalance() >= amount) {
+			cus.setWalletBalance(cus.getWalletBalance() - amount);
+			customers.put(email, cus);
+			return true;
+		}else {
+			return false;
+		}
+
+		
 	}
 
 	@Override
