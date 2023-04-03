@@ -42,6 +42,8 @@ Basic Flow of the application:
 
 ![stock broker flow](https://user-images.githubusercontent.com/99792738/229426132-fb8ccd2c-1e42-4e29-8945-e581d6faefb2.png)
 
+Tech Stacks Used:
+1. Java
 
 How to install and run the project:
 Installation :
