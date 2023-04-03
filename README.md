@@ -11,7 +11,7 @@ Description:
 What is StockBroker System;
 A Stockbroker has a wide range of responsibilities based on their clients and accounts. Typically, they are responsible for keeping track of changes in the financial markets and executing buys or selling stocks when they receive them.
  
- In this Project I have developed a stock broker system which has following functionalities:
+ In this Project I have developed a stock broker system which has following Users:
  A. Admin
  B. User
  
