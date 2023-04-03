@@ -2,6 +2,8 @@
  Title:
 BLOCK YOUR STOCKS
 
+This Project is an individual project in the association of Masai School during the contruct week of unit-4 under the course Java Comprehensive with course code JA-111 under the instructions of IA Manager : Mr. Rahul Singh 
+
 Description:
 What is StockBroker System;
 A Stockbroker has a wide range of responsibilities based on their clients and accounts. Typically, they are responsible for keeping track of changes in the financial markets and executing buys or selling stocks when they receive them.
@@ -41,6 +43,12 @@ Basic Flow of the application:
 How to install and run the project:
 Installation :
 Clone the Project from github repo link:
+https://github.com/nmohammednawaz/full-purpose-7427.git
+
+How to Run:
+1. Install Java Development Tool Kit
+2. Open cloned folder into it 
+3. Run as java application.
 
 
  
