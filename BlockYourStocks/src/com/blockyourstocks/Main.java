@@ -266,9 +266,22 @@ public class Main {
 		double money = sc.nextDouble();
 		boolean added = cusService.addMoneyToWallet(money, email, customers);
 		if(added) {
-			return "Amount of " + money + " successfully added to your wallet";
+			return "Amount of " + money + " successfully credited to your wallet";
 		}else {
-			return "Amount of " + money + " couldn't add!";
+			return "Amount of " + money + " couldn't credit!";
+		}
+	}
+	
+//	**************************************** Customer withdraw money Method **********************************
+	public static String customerWithdrawMoneyFromWallet(Scanner sc, String email, Map<String, Customer> customers,
+			CustomerService cusService) {
+		System.out.println("please enter the amount");
+		double money = sc.nextDouble();
+		boolean subtract = cusService.withdrawMoneyFromWallet(money, email, customers);
+		if(subtract) {
+			return "Amount of " + money + " successfully debited from your wallet";
+		}else {
+			return "Amount of " + money + " couldn't debit due to insufficient balance!";
 		}
 	}
 	
@@ -289,6 +302,7 @@ public class Main {
 		System.out.println("mobile number : " + cus.getNum());
 		System.out.println("email : " + cus.getEmail());
 		System.out.println("wallet balance : " + cus.getWalletBalance());
+		System.out.println("account status : " + cus.getUserStatus());
 	}
 	
 //	********************************* Customer Transaction Details Method ************************************
@@ -326,10 +340,11 @@ public class Main {
 				System.out.println("2. buy a stock");
 				System.out.println("3. sell a stock");
 				System.out.println("4. add money to a wallet");
-				System.out.println("5. view wallet balance");
-				System.out.println("6. view my details");
-				System.out.println("7. view my transactions");
-				System.out.println("8. logout");
+				System.out.println("5. withdraw money from wallet");
+				System.out.println("6. view wallet balance");
+				System.out.println("7. view my details");
+				System.out.println("8. view my transactions");
+				System.out.println("9. logout");
 				choice = sc.nextInt();
 
 				switch (choice) {
@@ -345,20 +360,24 @@ public class Main {
 					System.out.println(sold);
 					break;
 				case 4:
-					String moneyAdded = customerAddMoneyToWallet(sc, email, customers, cusService);
-					System.out.println(moneyAdded);
+					String moneyCredit = customerAddMoneyToWallet(sc, email, customers, cusService);
+					System.out.println(moneyCredit);
 					break;
 				case 5:
+					String moneyDebit = customerWithdrawMoneyFromWallet(sc, email, customers, cusService);
+					System.out.println(moneyDebit);
+					break;
+				case 6:
 					double walletBalance = customerViewWalletBalance(email, customers, cusService);
 					System.out.println("Wallet balance is: " + walletBalance);
 					break;
-				case 6:
+				case 7:
 					customerViewMyDetails(email, customers, cusService);
 					break;
-				case 7:
+				case 8:
 					customerViewCustomerTransactions(email, transactions, transactionService);
 					break;
-				case 8:
+				case 9:
 					System.out.println("you have successsfully logout");
 					break;
 				default:
@@ -366,7 +385,7 @@ public class Main {
 					break;
 				}
 
-			} while (choice <= 7);
+			} while (choice <= 8);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

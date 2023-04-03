@@ -20,7 +20,9 @@ public interface CustomerService {
 			throws InvalidDetailsException, StockException;
 
 	public boolean addMoneyToWallet(double amount, String email, Map<String, Customer> customers);
-
+	
+	public boolean withdrawMoneyFromWallet(double amount, String email, Map<String, Customer> customers);
+	
 	public double viewWalletBalance(String email, Map<String, Customer> customers);
 
 	public Customer viewCustomerDetails(String email, Map<String, Customer> customers);
